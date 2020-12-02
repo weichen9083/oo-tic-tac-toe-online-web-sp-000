@@ -32,7 +32,7 @@ puts " #{board[6]} | #{board[7]} | #{board[8]} "
   
 def input_to_index(move)
    index = move.to_i - 1
-   index
+   
 end
   
   
@@ -42,40 +42,48 @@ def move(index, token = "X")
 end
 
 
-def position_taken?(index)
-  !(@board[index].nil? || @board[index] == " ")
-end
 
-def valid_move?(index)
+   def position_taken?(position)
+        if @board[position] == " "
+            false
+        else 
+            true 
+        end 
+     end 
+    
+     def valid_move?(index)
+      if position_taken?(index) == false && index.between?(0,8)
+        puts 'this is a valid move'
+        true 
+      else 
+        false 
+      end    
+    
+end 
+    
+    
 
-  if index.between?(0,8) && !position_taken?(index)
-      puts 'this is a valid move'
-    return true
-  else
-   return false
-  end
-end
 
 
-def turn_count
-  counter = 0
-  @board.each do |space|
-    if space == "X" || space == "O"
-      counter +=1
-  end
-end
-return counter
-end
+def turn_count 
+        count = 0 
+        @board.each do |counter| 
+            if counter == "X" || counter =="O"
+                count +=1
+            end 
+        end 
+        count 
+    end 
   
 
 def current_player
-  if turn_count%2 ==0
-    current_player = "X"
-  else
-    current_player = "O"
-end
-return current_player
-end
+  if turn_count % 2 == 0 
+            "X"
+        else 
+            "O"
+        end 
+    end 
+
 
 
 
@@ -83,37 +91,35 @@ end
 
 
 def turn
-  puts "Please enter 1-9:"
-  
-  user_input = gets.strip
-  
-  index = input_to_index(user_input)
-  token = current_player
-  
-  
-  if valid_move?(index)
-    puts 'valid move'
-    move(index, token)
-    display_board(@board)
-   else
-    puts 'try again'
-    turn
-  end
+        puts "Please enter 1-9:"
+        input = gets.strip
+        index = input_to_index(input)
+        token = current_player
+        if valid_move?(index)
+            puts 'valid move'
+            move(index,token)
+            display_board(@board)
+        else 
+            puts "try again"
+            self.turn
+        end 
+        
+    end 
 
-end
+
 
 
 
 def won?
-  WIN_COMBINATIONS.detect do |win_combo|
-    if (@board[win_combo[0]]) == "X" && (@board[win_combo[1]]) == "X" && (@board[win_combo[2]]) == "X"
-      return win_combo
-    elsif (@board[win_combo[0]]) == "O" && (@board[win_combo[1]]) == "O" && (@board[win_combo[2]]) == "O"
-      return win_combo
-    end
-      false
-  end
-end
+        WIN_COMBINATIONS.detect do |win_combo|
+         if (@board[win_combo[0]]) == "X" && (@board[win_combo[1]]) == "X" && (@board[win_combo[2]]) == "X"
+            return win_combo
+          elsif (@board[win_combo[0]]) == "O" && (@board[win_combo[1]]) == "O" && (@board[win_combo[2]]) == "O"
+            return win_combo
+          end
+            false
+          end
+     end
 
 
 
